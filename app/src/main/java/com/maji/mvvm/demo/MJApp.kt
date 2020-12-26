@@ -24,7 +24,7 @@ class MJApp : Application() {
         super.onCreate()
         context = applicationContext
 
-        XLogManager.init(this)
+        XLogManager.init()
 
     }
 

@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JetpackMVVMDemo">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".main.OpenApiActivity"
+            android:theme="@style/Theme.JetpackMVVMDemo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

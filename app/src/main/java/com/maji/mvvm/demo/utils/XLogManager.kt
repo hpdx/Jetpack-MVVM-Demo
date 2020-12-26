@@ -1,16 +1,14 @@
 package com.maji.mvvm.demo.utils
 
-import android.content.Context
-import com.elvishew.xlog.BuildConfig
 import com.elvishew.xlog.LogConfiguration
 import com.elvishew.xlog.LogLevel
 import com.elvishew.xlog.XLog
 import com.elvishew.xlog.flattener.ClassicFlattener
 import com.elvishew.xlog.printer.AndroidPrinter
-import com.elvishew.xlog.printer.Printer
 import com.elvishew.xlog.printer.file.FilePrinter
 import com.elvishew.xlog.printer.file.clean.FileLastModifiedCleanStrategy
 import com.elvishew.xlog.printer.file.naming.DateFileNameGenerator
+import com.maji.mvvm.demo.BuildConfig
 
 /**
  *
@@ -25,7 +23,7 @@ object XLogManager {
     private const val TAG = "XLog"
     private const val MAX_TIME = 1000 * 60 * 60 * 24 * 7L // 日志保留7天
 
-    fun init(context: Context) {
+    fun init() {
         val config = LogConfiguration.Builder()
             .logLevel(if (BuildConfig.DEBUG) LogLevel.ALL else LogLevel.NONE) // 指定日志级别，低于该级别的日志将不会被打印，默认为 LogLevel.ALL
             .tag(TAG)
