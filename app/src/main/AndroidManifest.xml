@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.maji.mvvm.demo">
+    package="com.maji.mvvm.demo"
+    android:installLocation="auto">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".MJApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:name=".MJApp"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.JetpackMVVMDemo">
+        android:theme="@style/AppTheme">
 
-        <activity android:name=".main.OpenApiActivity"
-            android:theme="@style/Theme.JetpackMVVMDemo">
+        <activity
+            android:name=".main.OpenApiActivity"
+            android:theme="@style/ActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

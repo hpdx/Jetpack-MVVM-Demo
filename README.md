@@ -1,4 +1,4 @@
-### Jetpack中架构组件的使用示例
+### AAC架构组件的使用示例
 
 
 ##### [推荐]基于Retrofit + Coroutines的网络请求

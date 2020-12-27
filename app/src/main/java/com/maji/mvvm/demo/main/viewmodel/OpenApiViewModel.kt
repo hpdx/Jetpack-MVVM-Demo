@@ -1,5 +1,6 @@
 package com.maji.mvvm.demo.main.viewmodel
 
+import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import com.elvishew.xlog.XLog
 import com.google.gson.Gson
@@ -23,10 +24,15 @@ import com.maji.mvvm.demo.utils.DateUtils
 class OpenApiViewModel : BaseViewModel() {
 
     private val mOpenApiLiveData = MutableLiveData<MutableList<ItemInfo>>()
+    private val mErrorMsgLiveData = MutableLiveData<String>()
     private val mRepository = GithubApiRepository()
 
     fun getOpenApiLiveData(): MutableLiveData<MutableList<ItemInfo>> {
         return mOpenApiLiveData
+    }
+
+    fun getErrorMsgLiveData(): MutableLiveData<String> {
+        return mErrorMsgLiveData
     }
 
     fun getOpenApiList() {
@@ -34,14 +40,14 @@ class OpenApiViewModel : BaseViewModel() {
             val result: HttpResult<MutableMap<String, String>> = mRepository.getOpenApiList()
             try {
                 val resultData = result.getOrThrow()
-                XLog.i("-->resultData.size = ${resultData.size}")
+//                XLog.i("-->resultData.size = ${resultData.size}")
                 if (resultData.isNotEmpty()) {
                     val apiList = mutableListOf<ItemInfo>()
                     for ((name, url) in resultData) {
                         apiList.add(ItemInfo(name, url))
                     }
 
-                    XLog.i("-->apiList.size = ${apiList.size}")
+//                    XLog.i("-->apiList.size = ${apiList.size}")
                     mOpenApiLiveData.postValue(apiList)
 
                     // 将数据持久化到DB中
@@ -49,7 +55,9 @@ class OpenApiViewModel : BaseViewModel() {
                 }
             } catch (e: Exception) {
                 XLog.e("-->Exception message: ${e.message}")
-
+                if (!TextUtils.isEmpty(e.message)) {
+                    mErrorMsgLiveData.postValue(e.message)
+                }
             }
         }
     }

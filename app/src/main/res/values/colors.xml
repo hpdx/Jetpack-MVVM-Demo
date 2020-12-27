@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="black_313131">#313131</color>
+    <color name="blue_4b76ff">#4b76ff</color>
+    <color name="grey_888cab">#888CAB</color>
+    <color name="darkgrey">#959595</color>
+
+    <drawable name="white_drawable">#ffffff</drawable>
+    <drawable name="grey_drawable">#eeeeee</drawable>
+
 </resources>
