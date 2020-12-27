@@ -11,8 +11,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.maji.mvvm.demo.R
-import com.maji.mvvm.demo.base.layout.StatusLayout
 import com.maji.mvvm.demo.base.actionbar.ActionBarHelper
+import com.maji.mvvm.demo.base.layout.StatusLayout
 import com.maji.mvvm.demo.base.statusbar.StatusBarCompat
 import com.maji.mvvm.demo.base.statusbar.StatusBarFontColorUtils
 
@@ -230,10 +230,46 @@ abstract class BaseActivity<VM : ViewModel> : AppCompatActivity() {
     }
 
     /**
+     * 加载完成，显示内容，无动画
+     */
+    fun showContentNoAnim() {
+        mStatusLayout?.showContentNoAnim()
+    }
+
+    /**
      * 显示错误信息
      */
     fun showError(message: String) {
         mStatusLayout?.showErrorMessage(message)
+    }
+
+    /**
+     * 在没有数据时，显示的空view
+     */
+    fun showEmpty(message: String) {
+        if (mStatusLayout != null) {
+            mStatusLayout!!.addEmptyView { }
+            mStatusLayout!!.showEmptyMessage(message)
+        }
+    }
+
+    /**
+     * 在没有数据时，显示的空view
+     */
+    fun showEmpty(resId: Int, message: String?) {
+        if (mStatusLayout != null) {
+            mStatusLayout!!.addEmptyView { }
+            mStatusLayout!!.showEmptyMessage(resId, message!!)
+        }
+    }
+
+    /**
+     * 隐藏空数据提示view
+     */
+    fun hideEmpty() {
+        if (mStatusLayout != null) {
+            mStatusLayout!!.hideEmptyView()
+        }
     }
 
 }

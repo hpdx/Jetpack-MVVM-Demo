@@ -87,6 +87,12 @@ class StatusLayout {
         mEmptyView?.visibility = View.VISIBLE
     }
 
+    fun showEmptyMessage(message: String) {
+        ivEmptyIcon?.visibility = View.GONE
+        tvEmptyMessage?.text = message
+        mEmptyView?.visibility = View.VISIBLE
+    }
+
     fun showEmptyMessage(bitmap: Bitmap, message: String) {
         ivEmptyIcon?.setImageBitmap(bitmap)
         tvEmptyMessage?.text = message
@@ -188,6 +194,12 @@ class StatusLayout {
             })
             set.start()
         }
+    }
+
+    fun showContentNoAnim() {
+        mErrorView?.visibility = View.GONE
+        mLoadingView?.visibility = View.GONE
+        mContentView?.visibility = View.VISIBLE
     }
 
 }

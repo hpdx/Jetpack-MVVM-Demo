@@ -25,7 +25,7 @@ interface ApiInfoDao {
     /**
      * 获取最后一次的调用结果
      */
-    @Query("SELECT * FROM ApiInfo ORDER BY id DESC LIMIT 0,1")
-    fun getLastApiInfo(): ApiInfo
+    @Query("SELECT * FROM ApiInfo ORDER BY id DESC LIMIT 1")
+    fun getLastApiInfo(): ApiInfo?
 
 }

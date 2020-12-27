@@ -2,6 +2,7 @@ package com.maji.mvvm.demo.main
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.elvishew.xlog.XLog
 import com.maji.mvvm.demo.R
 import com.maji.mvvm.demo.base.BaseActivity
 import com.maji.mvvm.demo.main.adapter.VisitorHistoryListAdapter
@@ -10,6 +11,7 @@ import com.maji.mvvm.demo.main.model.ApiInfo
 
 /**
  * OpenApi调用历史记录
+ * TODO 分页暂未实现
  * <p>
  * Created by android_ls on 2020/12/27 18:44.
  *
@@ -44,7 +46,14 @@ class VisitorHistoryActivity : BaseActivity<VisitorHistoryViewModel>() {
 
     override fun observeLiveData() {
         mViewModel.getVisitorRecordLiveData().observe(this@VisitorHistoryActivity, { result ->
-            mAdapter.updateAdapterData(result)
+            XLog.i("result.size = ${result.size}")
+            if(result.size > 0) {
+                mAdapter.updateAdapterData(result)
+                hideEmpty()
+            } else {
+                // 空白页处理
+                showEmpty("暂无访问历史记录")
+            }
             showContent()
         })
     }
