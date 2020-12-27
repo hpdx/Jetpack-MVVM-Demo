@@ -1,8 +1,10 @@
 ### AAC架构组件的使用示例
 
-1、Lifecycle、LiveData和ViewModel的基本使用
-2、基于Retrofit + Coroutines的网络请求的使用
-3、Room的基本使用
+
+##### 使用到的知识点
+1.Lifecycle、LiveData和ViewModel的基本使用
+2.基于Retrofit + Coroutines的网络请求的使用
+3.Room的基本使用
 
 
 ##### [推荐]基于Retrofit + Coroutines的网络请求
