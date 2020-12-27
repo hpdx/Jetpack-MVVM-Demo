@@ -1,6 +1,6 @@
 package com.maji.mvvm.demo.service
 
-import retrofit2.Call
+import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 
 /**
@@ -14,6 +14,6 @@ import retrofit2.http.GET
 interface IGithubApiService {
 
     @GET("https://api.github.com")
-    fun getOpenApiList(): Call<MutableMap<String, String>>
+    fun getOpenApiList(): Deferred<MutableMap<String, String>>
 
 }

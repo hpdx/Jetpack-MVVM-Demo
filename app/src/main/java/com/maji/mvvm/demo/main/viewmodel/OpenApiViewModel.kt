@@ -5,14 +5,15 @@ import androidx.lifecycle.ViewModel
 import com.elvishew.xlog.XLog
 import com.google.gson.Gson
 import com.maji.mvvm.demo.dao.MJAppDatabase
-import com.maji.mvvm.demo.dispatcher.DispatcherTask
 import com.maji.mvvm.demo.service.IGithubApiService
 import com.maji.mvvm.demo.main.model.ApiInfo
 import com.maji.mvvm.demo.main.model.ItemInfo
 import com.maji.mvvm.demo.utils.DateUtils
 import com.maji.mvvm.demo.utils.ServiceCreator
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 /**
@@ -28,54 +29,36 @@ class OpenApiViewModel : ViewModel() {
     val mApiLiveData = MutableLiveData<MutableList<ItemInfo>>()
 
     fun getOpenApiList() {
-        val service = ServiceCreator.create(IGithubApiService::class.java)
-        service.getOpenApiList().enqueue(object : Callback<MutableMap<String, String>> {
-            override fun onFailure(call: retrofit2.Call<MutableMap<String, String>>, t: Throwable) {
-                XLog.i("-->onFailure message:" + t.message)
-
-            }
-
-            override fun onResponse(
-                call: retrofit2.Call<MutableMap<String, String>>,
-                response: Response<MutableMap<String, String>>
-            ) {
-                // retrofit2 回调的结果是在主线程中
-                if (response.isSuccessful) {
-                    val resultData = response.body()
-                    resultData?.let { map ->
-                        if (map.isNotEmpty()) {
-                            val apiList = mutableListOf<ItemInfo>()
-                            for ((name, url) in map) {
-                                apiList.add(ItemInfo(name, url))
-                            }
-
-                            XLog.i("-->apiList.size = ${apiList.size}")
-                            mApiLiveData.postValue(apiList)
-
-                            // 将数据持久化到DB中
-                            saveToDB(map)
-                        }
+        GlobalScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
+                val service = ServiceCreator.create<IGithubApiService>()
+                val resultData = service.getOpenApiList().await()
+                XLog.i("-->resultData.size = ${resultData.size}")
+                if (resultData.isNotEmpty()) {
+                    val apiList = mutableListOf<ItemInfo>()
+                    for ((name, url) in resultData) {
+                        apiList.add(ItemInfo(name, url))
                     }
-                } else {
-                    // rate limit exceeded
-                    XLog.i("-->onResponse message:" + response.message())
 
+                    XLog.i("-->apiList.size = ${apiList.size}")
+                    mApiLiveData.postValue(apiList)
+
+                    // 将数据持久化到DB中
+                    saveToDB(resultData)
                 }
             }
-        })
+        }
     }
 
     private fun saveToDB(mapData: MutableMap<String, String>) {
-        DispatcherTask.runOnDiskIO(Runnable {
-            val gson = Gson()
-            val jsonData = gson.toJson(mapData)
+        val gson = Gson()
+        val jsonData = gson.toJson(mapData)
 
-            val apiUrl = "https://api.github.com/"
-            val apiInfoDao = MJAppDatabase.getDatabase().apiInfoDao()
-            val apiInfo = ApiInfo(apiUrl, jsonData, DateUtils.getCurrentDate())
-            val saveResult = apiInfoDao.save(apiInfo)
-            XLog.i("saveResult = $saveResult")
-        })
+        val apiUrl = "https://api.github.com/"
+        val apiInfoDao = MJAppDatabase.getDatabase().apiInfoDao()
+        val apiInfo = ApiInfo(apiUrl, jsonData, DateUtils.getCurrentDate())
+        val saveResult = apiInfoDao.save(apiInfo)
+        XLog.i("saveResult = $saveResult")
     }
 
 }
