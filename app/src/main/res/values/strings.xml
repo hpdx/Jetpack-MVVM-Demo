@@ -2,5 +2,6 @@
     <string name="app_name">AAC架构组件示例</string>
     <string name="open_api_title">GitHub Open Api</string>
     <string name="open_api_right_title">历史记录</string>
+    <string name="visitor_history_title">调用历史记录</string>
 
 </resources>

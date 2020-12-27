@@ -20,6 +20,12 @@ interface ApiInfoDao {
     fun save(apiInfo: ApiInfo): Long
 
     @Query("SELECT * FROM ApiInfo ORDER BY id DESC LIMIT 0,20")
-    fun loadApiList(): List<ApiInfo>
+    fun loadApiList(): MutableList<ApiInfo>
+
+    /**
+     * 获取最后一次的调用结果
+     */
+    @Query("SELECT * FROM ApiInfo ORDER BY id DESC LIMIT 0,1")
+    fun getLastApiInfo(): ApiInfo
 
 }

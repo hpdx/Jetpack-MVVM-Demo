@@ -1,5 +1,10 @@
 ### AAC架构组件的使用示例
 
+1、LiveData的基本使用
+2、ViewModel的基本使用
+3、基于Retrofit + Coroutines的网络请求的使用
+4、Room的基本使用
+
 
 ##### [推荐]基于Retrofit + Coroutines的网络请求
 
@@ -74,7 +79,7 @@ class OpenApiViewModel : BaseViewModel() {
 
 }
 ```
-想要知道更多实现的细节，请查阅完整的代码
+想要了解更多实现的细节，请查阅完整的代码
 
 
 ##### 基于Retrofit的网络请求

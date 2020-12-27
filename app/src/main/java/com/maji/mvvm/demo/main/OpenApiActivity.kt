@@ -1,5 +1,6 @@
 package com.maji.mvvm.demo.main
 
+import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,8 +46,8 @@ class OpenApiActivity : BaseActivity<OpenApiViewModel>() {
         setActionBarBack(false)
         setActionBarTitle(getString(R.string.open_api_title))
         setActionBarRightText(getString(R.string.open_api_right_title), View.OnClickListener {
-            XLog.i("-->displayActionBarRightText")
-
+            val intent = Intent(this@OpenApiActivity, VisitorHistoryActivity::class.java)
+            startActivity(intent)
         })
     }
 
