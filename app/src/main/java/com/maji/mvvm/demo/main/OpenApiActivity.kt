@@ -47,7 +47,7 @@ class OpenApiActivity : AppCompatActivity() {
         }
 
         viewModel = ViewModelProvider(this)[OpenApiViewModel::class.java]
-        viewModel.mApiLiveData.observe(this, { result ->
+        viewModel.getOpenApiLiveData().observe(this, { result ->
             mAdapter.updateAdapterData(result)
         })
 

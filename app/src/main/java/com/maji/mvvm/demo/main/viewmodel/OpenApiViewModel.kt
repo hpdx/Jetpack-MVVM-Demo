@@ -1,20 +1,16 @@
 package com.maji.mvvm.demo.main.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.elvishew.xlog.XLog
 import com.google.gson.Gson
+import com.maji.mvvm.demo.base.BaseViewModel
+import com.maji.mvvm.demo.base.model.HttpResult
+import com.maji.mvvm.demo.base.model.getOrThrow
 import com.maji.mvvm.demo.dao.MJAppDatabase
-import com.maji.mvvm.demo.service.IGithubApiService
 import com.maji.mvvm.demo.main.model.ApiInfo
 import com.maji.mvvm.demo.main.model.ItemInfo
+import com.maji.mvvm.demo.repository.GithubApiRepository
 import com.maji.mvvm.demo.utils.DateUtils
-import com.maji.mvvm.demo.utils.ServiceCreator
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-
 
 /**
  *
@@ -24,15 +20,20 @@ import kotlinx.coroutines.withContext
  * @author android_ls
  * @version 1.0
  */
-class OpenApiViewModel : ViewModel() {
+class OpenApiViewModel : BaseViewModel() {
 
-    val mApiLiveData = MutableLiveData<MutableList<ItemInfo>>()
+    private val mOpenApiLiveData = MutableLiveData<MutableList<ItemInfo>>()
+    private val mRepository = GithubApiRepository()
+
+    fun getOpenApiLiveData(): MutableLiveData<MutableList<ItemInfo>> {
+        return mOpenApiLiveData
+    }
 
     fun getOpenApiList() {
-        GlobalScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO) {
-                val service = ServiceCreator.create<IGithubApiService>()
-                val resultData = service.getOpenApiList().await()
+        launchOnIO {
+            val result: HttpResult<MutableMap<String, String>> = mRepository.getOpenApiList()
+            try {
+                val resultData = result.getOrThrow()
                 XLog.i("-->resultData.size = ${resultData.size}")
                 if (resultData.isNotEmpty()) {
                     val apiList = mutableListOf<ItemInfo>()
@@ -41,11 +42,14 @@ class OpenApiViewModel : ViewModel() {
                     }
 
                     XLog.i("-->apiList.size = ${apiList.size}")
-                    mApiLiveData.postValue(apiList)
+                    mOpenApiLiveData.postValue(apiList)
 
                     // 将数据持久化到DB中
                     saveToDB(resultData)
                 }
+            } catch (e: Exception) {
+                XLog.e("-->Exception message: ${e.message}")
+
             }
         }
     }
@@ -59,6 +63,11 @@ class OpenApiViewModel : ViewModel() {
         val apiInfo = ApiInfo(apiUrl, jsonData, DateUtils.getCurrentDate())
         val saveResult = apiInfoDao.save(apiInfo)
         XLog.i("saveResult = $saveResult")
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        XLog.i("-->onCleared()")
     }
 
 }

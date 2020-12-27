@@ -1,6 +1,5 @@
 package com.maji.mvvm.demo.utils
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -20,7 +19,7 @@ object ServiceCreator {
         .client(HttpClientUtils.getOkHttpClient())
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+//        .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
 
     fun <T> create(serviceClass: Class<T>): T = retrofit.create(serviceClass)
