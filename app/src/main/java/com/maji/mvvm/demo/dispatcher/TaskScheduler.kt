@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 object TaskScheduler {
 
     /**
-     *  * 主线程周期性执行任务，默认立刻执行
+     * 主线程周期性执行任务，默认立刻执行
      * 之后间隔period执行，不需要时注意取消，每次执行时如果有相同的任务，默认会先取消
      *
      * @param task 任务对象
@@ -40,7 +40,7 @@ object TaskScheduler {
 
     /**
      * 取消周期性任务
-     * @param schedulerTask 任务对象
+     * @param task 任务对象
      */
     fun stop(task: TaskPeriod) {
         task.canceled.compareAndSet(false, true)

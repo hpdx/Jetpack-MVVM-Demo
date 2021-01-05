@@ -17,7 +17,7 @@ class TaskPeriod(
     private val taskCallback: OnTaskCallback
 ) : Runnable {
 
-    var canceled = AtomicBoolean(false)
+    val canceled = AtomicBoolean(false)
 
     override fun run() {
         if (!canceled.get()) {

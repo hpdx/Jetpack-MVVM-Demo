@@ -8,6 +8,22 @@
 
 3.Room的基本使用
 
+4.协程：是由Kotlin官方提供的多线程框架，它可以用看起来同步的方式写出异步执行的代码，降低了多任务并发的实现难度。
+
+在Kotlin中协程是基于线程进行封装后的一套API，与线程池的功能类似。
+
+`suspend` 关键字只是提到提醒作用，告诉函数的调用者我这是个耗时操作，只能在协程的作用域内调用。
+
+`withContext(Dispatchers.IO){}`切到子线程执行任务，执行完成再切回来。
+
+```
+ GlobalScope.launch(Dispatchers.Main) {
+     withContext(Dispatchers.IO) {
+         // 在子线程执行
+     }
+     // 在主线程执行
+ }
+```
 
 ##### [推荐]基于Retrofit + Coroutines的网络请求
 
