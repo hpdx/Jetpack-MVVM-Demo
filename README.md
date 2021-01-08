@@ -25,6 +25,32 @@
  }
 ```
 
+5.基于LiveData实现的类似EventBus的功能
+```
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val eventKey = 102
+        val liveData = LiveDataBus.get(eventKey, String::class.java)
+        liveData.observe(this, { result ->
+            XLog.i("-->result = $result")
+        })
+        liveData.postValue("hello，LiveDataBus")
+
+        val bundleKey = 103
+        val bundleLiveData = LiveDataBus.get(bundleKey, Bundle::class.java)
+        bundleLiveData.observe(this, { result ->
+            XLog.i("-->result name = ${result["name"]} \tage = ${result["age"]} ")
+
+        })
+
+        val bundle = Bundle()
+        bundle.putString("name", "Jeff")
+        bundle.putInt("age", 28)
+        bundleLiveData.postValue(bundle)
+    }
+```
+
 ##### [推荐]基于Retrofit + Coroutines的网络请求
 
 ```
