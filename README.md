@@ -26,6 +26,9 @@
 ```
 
 5.基于LiveData实现的类似EventBus的功能
+
+LivaDataBus的完整实现 https://github.com/hpdx/LiveDataBus
+
 ```
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
