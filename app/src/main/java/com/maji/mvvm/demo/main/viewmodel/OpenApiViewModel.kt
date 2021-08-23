@@ -11,7 +11,7 @@ import com.maji.mvvm.demo.base.model.getOrThrow
 import com.maji.mvvm.demo.dao.MJAppDatabase
 import com.maji.mvvm.demo.main.model.ApiInfo
 import com.maji.mvvm.demo.main.model.ItemInfo
-import com.maji.mvvm.demo.repository.GithubApiRepository
+import com.maji.mvvm.demo.repository.GithubApiRepo
 import com.maji.mvvm.demo.utils.DateUtils
 
 /**
@@ -30,7 +30,7 @@ class OpenApiViewModel : BaseViewModel() {
     private val mLocalCacheLiveData = MutableLiveData<MutableList<ItemInfo>>()
     private val mNoLocalCacheLiveData = MutableLiveData<String>()
 
-    private val mRepository = GithubApiRepository()
+    private val mRepository = GithubApiRepo()
 
     fun getOpenApiLiveData(): MutableLiveData<MutableList<ItemInfo>> {
         return mOpenApiLiveData

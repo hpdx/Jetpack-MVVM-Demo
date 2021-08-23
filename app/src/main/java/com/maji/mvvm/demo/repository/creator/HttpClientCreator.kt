@@ -1,4 +1,4 @@
-package com.maji.mvvm.demo.utils
+package com.maji.mvvm.demo.repository.creator
 
 import com.elvishew.xlog.XLog
 import okhttp3.ConnectionSpec
@@ -14,12 +14,12 @@ import java.util.concurrent.TimeUnit
  * @author android_ls
  * @version 1.0
  */
-object HttpClientUtils {
+object HttpClientCreator {
 
     private const val TAG = "OkHttp"
     private const val DEFAULT_TIMEOUT: Long = 15
     private const val READ_TIMEOUT: Long = 60
-    private val logger = XLog.tag(TAG).nt().nst()
+    private val logger = XLog.tag(TAG).disableThreadInfo().disableStackTrace()
 
     fun getOkHttpClient(block: OkHttpClient.Builder.() -> Unit = {}): OkHttpClient {
         return OkHttpClient().newBuilder().apply {

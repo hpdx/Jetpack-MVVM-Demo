@@ -17,7 +17,7 @@ object FileUtils {
     /**
      * 应用程序相关文件存放的根目录
      */
-    private const val ROOT_DIR_NAME = "maji"
+    private const val ROOT_DIR_NAME = "MAJIA"
 
     /**
      * LOG文件存放的目录

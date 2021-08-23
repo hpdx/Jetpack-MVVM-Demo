@@ -1,4 +1,4 @@
-package com.maji.mvvm.demo.utils
+package com.maji.mvvm.demo.repository.creator
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,7 +16,7 @@ object ServiceCreator {
     private const val BASE_URL = "https://api.github.com/"
 
     private val retrofit = Retrofit.Builder()
-        .client(HttpClientUtils.getOkHttpClient())
+        .client(HttpClientCreator.getOkHttpClient())
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
 //        .addCallAdapterFactory(CoroutineCallAdapterFactory())

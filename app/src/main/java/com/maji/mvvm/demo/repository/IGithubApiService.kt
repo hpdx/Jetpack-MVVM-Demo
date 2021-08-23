@@ -1,4 +1,4 @@
-package com.maji.mvvm.demo.service
+package com.maji.mvvm.demo.repository
 
 import retrofit2.http.GET
 import retrofit2.Call

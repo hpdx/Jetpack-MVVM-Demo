@@ -27,8 +27,8 @@ object XLogManager {
         val config = LogConfiguration.Builder()
             .logLevel(if (BuildConfig.DEBUG) LogLevel.ALL else LogLevel.NONE) // 指定日志级别，低于该级别的日志将不会被打印，默认为 LogLevel.ALL
             .tag(TAG)
-            .t() // 允许打印线程信息，默认禁止
-            .st(1) // 允许打印深度为2的调用栈信息，默认禁止
+            .enableThreadInfo() // 允许打印线程信息，默认禁止
+            .enableStackTrace(1) // 允许打印深度为2的调用栈信息，默认禁止
             .build()
 
         val androidPrinter = object : AndroidPrinter() {
