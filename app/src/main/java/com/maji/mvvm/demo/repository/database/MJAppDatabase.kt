@@ -1,12 +1,12 @@
-package com.maji.mvvm.demo.dao
+package com.maji.mvvm.demo.repository.database
 
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.maji.mvvm.demo.MJApp
-import com.maji.mvvm.demo.main.model.ApiInfo
+import com.maji.mvvm.demo.appContext
+import com.maji.mvvm.demo.design.model.ApiInfo
 
 /**
  *
@@ -38,7 +38,7 @@ abstract class MJAppDatabase : RoomDatabase() {
                 return it
             }
             return Room.databaseBuilder(
-                MJApp.context,
+                appContext,
                 MJAppDatabase::class.java,
                 "mj_database"
             )

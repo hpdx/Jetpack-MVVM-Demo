@@ -1,4 +1,4 @@
-package com.maji.mvvm.demo.main.model
+package com.maji.mvvm.demo.design.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

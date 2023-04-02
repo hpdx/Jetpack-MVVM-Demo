@@ -1,4 +1,4 @@
-package com.maji.mvvm.demo.main.viewholder
+package com.maji.mvvm.demo.design.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import android.widget.TextView
 import com.maji.mvvm.demo.R
 import com.maji.mvvm.demo.base.BaseViewHolder
 import com.maji.mvvm.demo.base.listener.OnItemClickListener
-import com.maji.mvvm.demo.main.model.ApiInfo
+import com.maji.mvvm.demo.design.model.ApiInfo
 
 /**
  *

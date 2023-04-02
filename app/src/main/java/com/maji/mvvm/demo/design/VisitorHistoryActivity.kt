@@ -1,13 +1,15 @@
-package com.maji.mvvm.demo.main
+package com.maji.mvvm.demo.design
 
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elvishew.xlog.XLog
 import com.maji.mvvm.demo.R
 import com.maji.mvvm.demo.base.BaseActivity
-import com.maji.mvvm.demo.main.adapter.VisitorHistoryListAdapter
-import com.maji.mvvm.demo.main.viewmodel.VisitorHistoryViewModel
-import com.maji.mvvm.demo.main.model.ApiInfo
+import com.maji.mvvm.demo.databinding.ActivityVisitorHistoryBinding
+import com.maji.mvvm.demo.design.adapter.VisitorHistoryListAdapter
+import com.maji.mvvm.demo.design.viewmodel.VisitorHistoryViewModel
+import com.maji.mvvm.demo.design.model.ApiInfo
 
 /**
  * OpenApi调用历史记录
@@ -18,12 +20,14 @@ import com.maji.mvvm.demo.main.model.ApiInfo
  * @author android_ls
  * @version 1.0
  */
-class VisitorHistoryActivity : BaseActivity<VisitorHistoryViewModel>() {
-
-    private var mRecyclerView: RecyclerView? = null
+class VisitorHistoryActivity : BaseActivity() {
 
     private val mVisitorHistoryData = mutableListOf<ApiInfo>()
+
     private lateinit var mAdapter: VisitorHistoryListAdapter
+    private lateinit var mLayout: ActivityVisitorHistoryBinding
+
+    private val viewModel by viewModels<VisitorHistoryViewModel>()
 
     override fun setActionbar() {
         super.setActionbar()
@@ -31,31 +35,30 @@ class VisitorHistoryActivity : BaseActivity<VisitorHistoryViewModel>() {
         setActionBarTitle(getString(R.string.visitor_history_title))
     }
 
-    override fun getContentLayoutRes(): Int {
-       return R.layout.activity_visitor_history
-    }
-
-    override fun createViewModel(): VisitorHistoryViewModel {
-        return getViewModel()
-    }
+    override fun getContentLayoutId(): Int = 0
+    override fun getContentLayoutView() =
+        ActivityVisitorHistoryBinding.inflate(layoutInflater).let {
+            mLayout = it
+            it.root
+        }
 
     override fun loadData() {
         showLoading()
-        mViewModel.getVisitorRecordList()
+        viewModel.getVisitorRecordList()
     }
 
     override fun observeLiveData() {
-        mViewModel.getVisitorRecordLiveData().observe(this@VisitorHistoryActivity, { result ->
-            XLog.i("result.size = ${result.size}")
-            if(result.size > 0) {
-                mAdapter.updateAdapterData(result)
+        viewModel.getVisitorRecordLiveData().observe(this) { data ->
+            XLog.i("result.size = ${data.size}")
+            if (data.size > 0) {
+                mAdapter.updateAdapterData(data)
                 hideEmpty()
             } else {
                 // 空白页处理
                 showEmpty("暂无访问历史记录")
             }
             showContent()
-        })
+        }
     }
 
     override fun hasStatusLayout(): Boolean {
@@ -64,10 +67,12 @@ class VisitorHistoryActivity : BaseActivity<VisitorHistoryViewModel>() {
 
     override fun setupViews() {
         super.setupViews()
-        mRecyclerView = findViewById(R.id.recycler_view)
         mAdapter = VisitorHistoryListAdapter(this@VisitorHistoryActivity, mVisitorHistoryData)
-        mRecyclerView?.apply {
-            layoutManager = LinearLayoutManager(this@VisitorHistoryActivity, RecyclerView.VERTICAL, false)
+        mLayout.recyclerView.apply {
+            layoutManager = LinearLayoutManager(
+                this@VisitorHistoryActivity,
+                RecyclerView.VERTICAL, false
+            )
             adapter = mAdapter
         }
     }

@@ -4,6 +4,7 @@
 .cxx
 .gradle
 .idea
+/.idea/misc
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml

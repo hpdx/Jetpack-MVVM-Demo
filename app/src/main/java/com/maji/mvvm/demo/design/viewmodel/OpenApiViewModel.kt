@@ -1,4 +1,4 @@
-package com.maji.mvvm.demo.main.viewmodel
+package com.maji.mvvm.demo.design.viewmodel
 
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
@@ -8,9 +8,9 @@ import com.google.gson.reflect.TypeToken
 import com.maji.mvvm.demo.base.BaseViewModel
 import com.maji.mvvm.demo.base.model.HttpResult
 import com.maji.mvvm.demo.base.model.getOrThrow
-import com.maji.mvvm.demo.dao.MJAppDatabase
-import com.maji.mvvm.demo.main.model.ApiInfo
-import com.maji.mvvm.demo.main.model.ItemInfo
+import com.maji.mvvm.demo.repository.database.MJAppDatabase
+import com.maji.mvvm.demo.design.model.ApiInfo
+import com.maji.mvvm.demo.design.model.ItemInfo
 import com.maji.mvvm.demo.repository.GithubApiRepo
 import com.maji.mvvm.demo.utils.DateUtils
 
@@ -75,14 +75,14 @@ class OpenApiViewModel : BaseViewModel() {
             val result: HttpResult<MutableMap<String, String>> = mRepository.getOpenApiList()
             try {
                 val resultData = result.getOrThrow()
-//                XLog.i("-->resultData.size = ${resultData.size}")
+                XLog.d("-->resultData.size = ${resultData.size}")
                 if (resultData.isNotEmpty()) {
                     val apiList = mutableListOf<ItemInfo>()
                     for ((name, url) in resultData) {
                         apiList.add(ItemInfo(name, url))
                     }
 
-//                    XLog.i("-->apiList.size = ${apiList.size}")
+                    XLog.d("-->apiList.size = ${apiList.size}")
                     mOpenApiLiveData.postValue(apiList)
 
                     // 将数据持久化到DB中

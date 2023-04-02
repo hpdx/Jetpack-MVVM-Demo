@@ -2,6 +2,7 @@ package com.maji.mvvm.demo.utils
 
 import android.os.Environment
 import com.maji.mvvm.demo.MJApp
+import com.maji.mvvm.demo.appContext
 import java.io.File
 
 /**
@@ -29,7 +30,7 @@ object FileUtils {
             || !Environment.isExternalStorageRemovable()
         ) {
             // 外部存储可用
-            val cacheFile: File? = MJApp.context.getExternalFilesDir(ROOT_DIR_NAME)
+            val cacheFile: File? = appContext.getExternalFilesDir(ROOT_DIR_NAME)
             cacheFile?.let {
                 if (it.exists()) {
                     return it.path
@@ -38,7 +39,7 @@ object FileUtils {
         }
 
         // 外部存储不可用
-        return MJApp.context.filesDir.path
+        return appContext.filesDir.path
     }
 
     /**

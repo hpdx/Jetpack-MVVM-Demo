@@ -1,4 +1,4 @@
-package com.maji.mvvm.demo.main.adapter
+package com.maji.mvvm.demo.design.adapter
 
 import android.content.Context
 import android.view.ViewGroup
@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.maji.mvvm.demo.R
 import com.maji.mvvm.demo.base.BaseAdapter
 import com.maji.mvvm.demo.base.listener.OnItemClickListener
-import com.maji.mvvm.demo.main.viewholder.VisitorHistoryViewHolder
-import com.maji.mvvm.demo.main.model.ApiInfo
+import com.maji.mvvm.demo.design.viewholder.OpenApiViewHolder
+import com.maji.mvvm.demo.design.model.ItemInfo
 
 /**
  *
@@ -17,19 +17,19 @@ import com.maji.mvvm.demo.main.model.ApiInfo
  * @author android_ls
  * @version 1.0
  */
-class VisitorHistoryListAdapter(
+class OpenApiListAdapter(
     context: Context,
-    data: MutableList<ApiInfo>,
-    onItemClickListener: OnItemClickListener<ApiInfo>? = null
-) : BaseAdapter<ApiInfo>(context, data, onItemClickListener) {
+    data: MutableList<ItemInfo>,
+    onItemClickListener: OnItemClickListener<ItemInfo>? = null
+) : BaseAdapter<ItemInfo>(context, data, onItemClickListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return VisitorHistoryViewHolder(mLayoutInflater, R.layout.item_visitor_history_layout, parent)
+        return OpenApiViewHolder(mLayoutInflater, R.layout.item_open_api_layout, parent)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemInfo = data[position]
-        if (holder is VisitorHistoryViewHolder) {
+        if (holder is OpenApiViewHolder) {
             holder.bind(itemInfo, position)
         }
     }

@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.maji.mvvm.demo.R
 import com.maji.mvvm.demo.base.actionbar.ActionBarHelper
 import com.maji.mvvm.demo.base.layout.StatusLayout
@@ -25,13 +24,12 @@ import com.maji.mvvm.demo.base.statusbar.StatusBarFontColorUtils
  * @author android_ls
  * @version 1.0
  */
-abstract class BaseActivity<VM : ViewModel> : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     var mStatusLayout: StatusLayout? = null
     var mRootLayout: FrameLayout? = null
 
     lateinit var mActionBarHelper: ActionBarHelper
-    lateinit var mViewModel: VM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,26 +39,16 @@ abstract class BaseActivity<VM : ViewModel> : AppCompatActivity() {
         setActionbar()
         setupViews()
 
-        mViewModel = createViewModel()
         observeLiveData()
         loadData()
     }
 
     /**
      * 获取内容布局文件
-     *
-     * @return
      */
-    protected abstract fun getContentLayoutRes(): Int
+    protected abstract fun getContentLayoutId(): Int
 
-    /**
-     * 指定具体执行业务逻辑的ViewModel
-     */
-    protected abstract fun createViewModel(): VM
-
-    inline fun <reified T : ViewModel> getViewModel(): T {
-        return ViewModelProvider(this).get(T::class.java)
-    }
+    protected abstract fun getContentLayoutView(): View?
 
     /**
      * 从远程服务器端或本地加载数据
@@ -184,7 +172,13 @@ abstract class BaseActivity<VM : ViewModel> : AppCompatActivity() {
             if (hasStatusLayout()) {
                 mStatusLayout = StatusLayout()
                 mStatusLayout!!.apply {
-                    onCreateView(layoutInflater, mRootLayout, getContentLayoutRes())
+                    val contentLayoutView = getContentLayoutView()
+                    if (contentLayoutView != null) {
+                        onCreateView(layoutInflater, mRootLayout, contentLayoutView)
+                    } else {
+                        onCreateView(layoutInflater, mRootLayout, getContentLayoutId())
+                    }
+
                     onViewCreated {
                         if (mStatusLayout != null) {
                             mStatusLayout!!.showLoading()
@@ -194,13 +188,22 @@ abstract class BaseActivity<VM : ViewModel> : AppCompatActivity() {
                     mRootLayout!!.addView(getRootView())
                 }
             } else {
-                if (getContentLayoutRes() != 0) {
-                    val view: View = layoutInflater.inflate(
-                        getContentLayoutRes(),
+                val contentLayoutView = getContentLayoutView()
+                if (contentLayoutView != null) {
+                    mRootLayout!!.addView(
+                        contentLayoutView,
+                        ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                        )
+                    )
+                } else {
+                    val contentLayout = layoutInflater.inflate(
+                        getContentLayoutId(),
                         mRootLayout,
                         false
                     )
-                    mRootLayout!!.addView(view)
+                    mRootLayout!!.addView(contentLayout)
                 }
             }
         }
@@ -241,6 +244,7 @@ abstract class BaseActivity<VM : ViewModel> : AppCompatActivity() {
      */
     fun showError(message: String) {
         mStatusLayout?.showErrorMessage(message)
+        mStatusLayout?.showErrorView()
     }
 
     /**

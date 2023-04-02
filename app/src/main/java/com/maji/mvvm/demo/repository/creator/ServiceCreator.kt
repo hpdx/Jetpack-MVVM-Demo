@@ -19,7 +19,6 @@ object ServiceCreator {
         .client(HttpClientCreator.getOkHttpClient())
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
-//        .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
 
     fun <T> create(serviceClass: Class<T>): T = retrofit.create(serviceClass)

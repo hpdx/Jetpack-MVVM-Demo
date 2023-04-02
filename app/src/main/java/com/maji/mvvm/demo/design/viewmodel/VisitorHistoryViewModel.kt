@@ -1,9 +1,9 @@
-package com.maji.mvvm.demo.main.viewmodel
+package com.maji.mvvm.demo.design.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.maji.mvvm.demo.base.BaseViewModel
-import com.maji.mvvm.demo.dao.MJAppDatabase
-import com.maji.mvvm.demo.main.model.ApiInfo
+import com.maji.mvvm.demo.repository.database.MJAppDatabase
+import com.maji.mvvm.demo.design.model.ApiInfo
 
 /**
  *

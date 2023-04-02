@@ -15,17 +15,12 @@ import com.maji.mvvm.demo.utils.XLogManager
  */
 class MJApp : Application() {
 
-    companion object {
-        @SuppressLint("StaticFieldLeak")
-        lateinit var context: Context
-    }
-
     override fun onCreate() {
         super.onCreate()
-        context = applicationContext
-
+        appContext = this
         XLogManager.init()
-
     }
 
 }
+
+lateinit var appContext: MJApp

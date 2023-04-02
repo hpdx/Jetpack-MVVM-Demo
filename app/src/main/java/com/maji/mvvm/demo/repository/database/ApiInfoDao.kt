@@ -1,9 +1,9 @@
-package com.maji.mvvm.demo.dao
+package com.maji.mvvm.demo.repository.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.maji.mvvm.demo.main.model.ApiInfo
+import com.maji.mvvm.demo.design.model.ApiInfo
 
 /**
  *

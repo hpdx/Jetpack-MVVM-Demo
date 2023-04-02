@@ -3,6 +3,7 @@ package com.maji.mvvm.demo.repository.creator
 import com.elvishew.xlog.XLog
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
+import okhttp3.internal.connection.retryTlsHandshake
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
@@ -28,7 +29,7 @@ object HttpClientCreator {
             readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
             writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS))
-            retryOnConnectionFailure(true)
+            retryOnConnectionFailure(false)
             block()
         }.build()
     }
