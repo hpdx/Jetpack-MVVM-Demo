@@ -2,6 +2,10 @@ package com.maji.mvvm.demo.design.viewmodel
 
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.elvishew.xlog.XLog
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -11,6 +15,7 @@ import com.maji.mvvm.demo.base.model.getOrThrow
 import com.maji.mvvm.demo.repository.database.MJAppDatabase
 import com.maji.mvvm.demo.design.model.ApiInfo
 import com.maji.mvvm.demo.design.model.ItemInfo
+import com.maji.mvvm.demo.design.model.OpenApiPagingSource
 import com.maji.mvvm.demo.repository.GithubApiRepo
 import com.maji.mvvm.demo.utils.DateUtils
 
@@ -30,7 +35,7 @@ class OpenApiViewModel : BaseViewModel() {
     private val mLocalCacheLiveData = MutableLiveData<MutableList<ItemInfo>>()
     private val mNoLocalCacheLiveData = MutableLiveData<String>()
 
-    private val mRepository = GithubApiRepo()
+    private val mRepository by lazy { GithubApiRepo() }
 
     fun getOpenApiLiveData(): MutableLiveData<MutableList<ItemInfo>> {
         return mOpenApiLiveData
@@ -114,6 +119,16 @@ class OpenApiViewModel : BaseViewModel() {
     override fun onCleared() {
         super.onCleared()
         XLog.i("-->onCleared()")
+    }
+
+    private fun loadData2() {
+        val flow = Pager(
+            // Configure how data is loaded by passing additional properties to
+            // PagingConfig, such as prefetchDistance.
+            PagingConfig(pageSize = 20)
+        ) {
+            OpenApiPagingSource()
+        }.flow.cachedIn(viewModelScope)
     }
 
 }

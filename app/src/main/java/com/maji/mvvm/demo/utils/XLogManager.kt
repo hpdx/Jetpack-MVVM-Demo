@@ -3,12 +3,12 @@ package com.maji.mvvm.demo.utils
 import com.elvishew.xlog.LogConfiguration
 import com.elvishew.xlog.LogLevel
 import com.elvishew.xlog.XLog
+import com.elvishew.xlog.XLog.tag
 import com.elvishew.xlog.flattener.ClassicFlattener
 import com.elvishew.xlog.printer.AndroidPrinter
 import com.elvishew.xlog.printer.file.FilePrinter
 import com.elvishew.xlog.printer.file.clean.FileLastModifiedCleanStrategy
 import com.elvishew.xlog.printer.file.naming.DateFileNameGenerator
-import com.maji.mvvm.demo.BuildConfig
 
 /**
  *
@@ -25,7 +25,7 @@ object XLogManager {
 
     fun init() {
         val config = LogConfiguration.Builder()
-            .logLevel(if (BuildConfig.DEBUG) LogLevel.ALL else LogLevel.NONE) // 指定日志级别，低于该级别的日志将不会被打印，默认为 LogLevel.ALL
+            .logLevel(LogLevel.ALL) // 指定日志级别，低于该级别的日志将不会被打印，默认为 LogLevel.ALL
             .tag(TAG)
             .enableThreadInfo() // 允许打印线程信息，默认禁止
             .enableStackTrace(1) // 允许打印深度为2的调用栈信息，默认禁止
@@ -33,10 +33,10 @@ object XLogManager {
 
         val androidPrinter = object : AndroidPrinter() {
             override fun println(logLevel: Int, tag: String?, msg: String?) {
-                if (BuildConfig.DEBUG) {
+//                if (BuildConfig.DEBUG) {
                     // 仅Debug模式打印控制台日志
                     super.println(logLevel, tag, msg)
-                }
+//                }
             }
         }
 

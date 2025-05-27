@@ -22,4 +22,9 @@ class GithubApiRepo : BaseRepository() {
         return service.getOpenApiList().awaitResult()
     }
 
+    suspend fun getOpenApiList(pageNo: Int, pageSize: Int): HttpResult<MutableMap<String, String>> {
+        val service = ServiceCreator.create<IGithubApiService>()
+        return service.getOpenApiList().awaitResult()
+    }
+
 }
